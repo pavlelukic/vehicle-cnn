@@ -2,10 +2,10 @@ import os
 from bing_image_downloader import downloader
 
 queries = {
-    "car": "car street daytime",
-    "bicycle": "bicycle city road",
+    "car": "car wallpaper landscape",
+    "bicycle": "guy riding bicycle city",
     "scooter": "electric kick scooter street",
-    "bus": "bus city traffic"
+    "bus": "bus in city traffic driving"
 }
 
 for label, query in queries.items():
