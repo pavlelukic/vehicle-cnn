@@ -4,7 +4,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 
 DATA_DIR = "dataset_split"
 IMG_SIZE = (224,224)
@@ -13,10 +13,11 @@ EPOCHS = 30
 
 train_aug = ImageDataGenerator(
     rescale=1./255,
-    rotation_range=15,
+    rotation_range=25,
     width_shift_range=0.1,
     height_shift_range=0.1,
-    zoom_range=0.1,
+    zoom_range=0.2,
+    brightness_range=(0.8, 1.2),
     horizontal_flip=True)
 
 val_aug = ImageDataGenerator(rescale=1./255)
@@ -59,7 +60,8 @@ model.compile(Adam(1e-3),
 
 callbacks = [
     EarlyStopping(patience=5, restore_best_weights=True),
-    ModelCheckpoint("vehicle_cnn.h5", save_best_only=True)
+    ModelCheckpoint("vehicle_cnn.keras", save_best_only=True),
+    ReduceLROnPlateau(patience=3, factor=0.3, verbose=1)
 ]
 
 history = model.fit(
@@ -69,3 +71,5 @@ history = model.fit(
     callbacks=callbacks,
     verbose=2
 )
+
+model.save("vehicle_cnn.keras")
