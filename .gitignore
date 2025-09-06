@@ -1,5 +1,3 @@
-dataset*/  
-venv/  
+venv/
 *.keras
 .idea/
-examples/
