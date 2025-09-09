@@ -23,8 +23,8 @@ That simple change launched the model to an incredible **~91% validation accurac
 vehicle-cnn/  
 │  
 ├── **dataset/**          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#  raw, unedited images from the web(4 categories)  
-├── **dataset_split/**          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# train/ and val/ sub-folders (4 categories each)  
-├── **dataset_updated/**          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# cleaned, renamed and resized JPGs (4 categories)  
+├── **dataset_split/**          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# train/ and test/ sub-folders (4 categories each)  
+├── **dataset_preprocessed/**          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# cleaned, renamed and resized JPGs (4 categories)  
 ├── **examples/**               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# test images  
 ├── **scripts/**  
 │   ├── **check_images.py**     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# finds corrupt files<br>
@@ -33,7 +33,7 @@ vehicle-cnn/
 │   ├── **rename_images.py**     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# every image gets a uniform name, depending on it's class  
 │   ├── **resize_images.py**     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# resizes all images uniformly <br>
 │   ├── **scrape_bing_images.py**     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Bing image scraper   
-│   ├── **split_dataset.py** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# shuffles data into train/val (80:20)<br>
+│   ├── **split_dataset.py** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# shuffles data into train/test (80:20)<br>
 │   ├── **train_mobilenetv2.py**       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# final transfer-learning pipeline  
 │   └── **train_model.py**    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# first CNN (from scratch)  
 ├── **requirements.txt**  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Python dependencies 
@@ -74,7 +74,7 @@ python .\scripts\predict_folder.py
 **Script:** `convert_images_to_jpg.py`
 
 * Converts all images from `dataset/` to `.jpg`  
-* Creates a new folder (for every category) and places the converted images there: `dataset_updated/`  
+* Creates a new folder (for every category) and places the converted images there: `dataset_preprocessed/`  
 * Keeps the original folder structure by vehicle type
 
 ### 3. Resize all images
@@ -83,7 +83,7 @@ python .\scripts\predict_folder.py
 
 * Resize all images to **224x224**
 * This resolution is light-weight and retains enough data, so it's the go-to solution
-* Update and save them in `dataset_updated/`
+* Update and save them in `dataset_preprocessed/`
 
 ### 4. Rename all images
 
@@ -91,15 +91,15 @@ python .\scripts\predict_folder.py
 
 * Renames all images to a uniform format
 * They're named like this: vehicle_type_five_digit_number (e.x. **car_00023**) 
-* Update and save them in `dataset_updated/`
+* Update and save them in `dataset_preprocessed/`
 
 ### 5. Split Dataset
 
 **Script:** `split_dataset.py`
 
-* The content from `dataset_updated` is split into training and validation sets
+* The content from `dataset_preprocessed` is split into training and validation sets
 * A split ratio of **80:20** is used
-* Creates new folder `dataset_split` with two subfolders: `train/` and `val/`
+* Creates new folder `dataset_split` with two subfolders: `train/` and `test/`
 
 ### 6. Check images
 
@@ -114,7 +114,7 @@ python .\scripts\predict_folder.py
 **Script** `train_model.py` and `train_mobilenetv2.py`
 
 * `train_model.py` is the initial script and `train_mobilenetv2.py` is the new one with better results
-* `dataset_split/train/` and `dataset_split/val/` are loaded
+* `dataset_split/train/` and `dataset_split/test/` are loaded
 * They build and train a **CNN** (Convolutional Neural Network)
 * Finally, they save the trained models to `vehicle_cnn.keras` and `vehicle_mobilenetv2.keras` respectively
 
@@ -259,7 +259,7 @@ python .\scripts\resize_images.py
 python .\scripts\rename_images.py
 python .\scripts\split_dataset.py
 ```
-This will pull an initial dataset of images for every category (you might need to delete unsuitable ones and download some manually for a larger, more complete dataset). After that all images will be converted to JPEG, resized and renamed. Finally, they will be split into two new datasets: `train` and `val`.
+This will pull an initial dataset of images for every category (you might need to delete unsuitable ones and download some manually for a larger, more complete dataset). After that all images will be converted to JPEG, resized and renamed. Finally, they will be split into two new datasets: `train` and `test`.
 At that point, we may want to check if there are some corrupted or non-image files left in out `dataset_split/` directory, and to do that you can execute:
 
 ```python .\scripts\check_images.py```
@@ -307,5 +307,4 @@ Building the **Vehicle-CNN** project gave me practical insight into every stage 
 ---
 
 #### Pavle Lukić, Fakultet Organizacionih Nauka
-Feel free to use and modify this software!
 Feel free to use and modify this software!

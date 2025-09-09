@@ -4,7 +4,7 @@ from PIL import Image
 vehicles = ["bicycle", "bus", "car", "scooter"]
 
 SRC_ROOT = "dataset"
-DST_ROOT = "dataset_updated"
+DST_ROOT = "Fdataset_preprocessed"
 
 for vehicle in vehicles:
     src_dir = os.path.join(SRC_ROOT, vehicle)

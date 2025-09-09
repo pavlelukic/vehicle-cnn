@@ -1,6 +1,6 @@
 import os
 
-ROOT = "dataset_updated"
+ROOT = "dataset_preprocessed"
 
 for label in os.listdir(ROOT):
     label_dir = os.path.join(ROOT, label)

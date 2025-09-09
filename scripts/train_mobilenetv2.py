@@ -20,7 +20,7 @@ train_aug = ImageDataGenerator(
     brightness_range=(0.8, 1.2),
     horizontal_flip=True)
 
-val_aug = ImageDataGenerator(rescale=1./255)
+test_aug = ImageDataGenerator(rescale=1./255)
 
 train_gen = train_aug.flow_from_directory(
     os.path.join(DATA_DIR, "train"),
@@ -29,8 +29,8 @@ train_gen = train_aug.flow_from_directory(
     class_mode="categorical",
     shuffle=True)
 
-val_gen = val_aug.flow_from_directory(
-    os.path.join(DATA_DIR, "val"),
+test_gen = test_aug.flow_from_directory(
+    os.path.join(DATA_DIR, "test"),
     target_size=IMG_SIZE,
     batch_size=BATCH,
     class_mode="categorical",
@@ -64,7 +64,7 @@ callbacks = [
 
 model.fit(train_gen,
           epochs=EPOCHS_FROZEN,
-          validation_data=val_gen,
+          validation_data=test_gen,
           callbacks=callbacks,
           verbose=2)
 
@@ -80,7 +80,7 @@ model.compile(
 
 model.fit(train_gen,
           epochs=EPOCHS_FINE,
-          validation_data=val_gen,
+          validation_data=test_gen,
           callbacks=callbacks,
           verbose=2)
 

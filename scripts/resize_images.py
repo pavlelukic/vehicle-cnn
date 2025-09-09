@@ -1,7 +1,7 @@
 import os
 from PIL import Image
 
-ROOT = "dataset_updated"
+ROOT = "dataset_preprocessed"
 SIZE = (224, 224)
 
 skipped = processed = 0
